@@ -1,4 +1,5 @@
 <script>
+    import Icon from '../../../../components/Icon.svelte';
     let newItem = '';
     let todoList = [];
     function add(){
@@ -13,6 +14,14 @@
             newItem = '';
         }
     }
+    function remove(index) {
+        todoList.splice(index, 1);
+        todoList = todoList;
+    }
+
+    function complete(index){
+        todoList[index].completed = !todoList[index].completed
+    }
 </script>
 
 <main>
@@ -23,19 +32,23 @@
             <span>+</span>
         </button>    
     </form>
+
     <div class="todos">
         {#each todoList as item, index}
+        <div class="todo" class:completed={item.completed}>
         <span class="todo_text">{item.task}</span>
         <div class="todo_buttons">
-            <button class="complete" on:click={()=>complete(index)}
-                <Icon name = "check-mark">/>
+            <button class="complete" on:click={()=>complete(index)}>
+                <Icon name = "check-mark"/>
             </button>
-            <button class="delete" on:click={()=>remove(index)}
-                <Icon name = "delete">/>
+            <button class="delete" on:click={()=>remove(index)}>
+                <Icon name = "delete"/>
             </button>
-        </div>            
+        </div>   
+    </div>           
         {/each}
     </div>
+
 </main>
 
 <style>
@@ -99,5 +112,29 @@
         text-align: center;
         font-size: 1.5rem;
         margin: 2em 0;
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+    }
+
+    button.delete,
+    button.delete:hover {
+        color: brown;
+        transition: color 100ms ease-out;
+    }
+
+    .todo.completed.todo\_\_text {
+        text-decoration: line-through;
+    }
+
+    .todo.completed button {
+        color: silver;
+    }
+
+    .todos {
+        width: 100%;
+        max-width: 500px;
     }
 </style>
